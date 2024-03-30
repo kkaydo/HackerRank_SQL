@@ -1,0 +1,12 @@
+-- Joining multiple tables
+SELECT t1.company_code, t1.founder, t2.CountLM,t3.CountSM,t4.CountM,t5.CountE FROM
+(SELECT company_code, founder FROM Company) AS t1
+LEFT JOIN
+(SELECT COUNT(DISTINCT lead_manager_code) AS CountLM, company_code FROM Lead_Manager GROUP BY company_code) AS t2 ON t1.company_code = t2.company_code
+LEFT JOIN
+(SELECT COUNT(DISTINCT senior_manager_code) AS CountSM, company_code FROM Senior_Manager GROUP BY company_code) AS t3 ON t1.company_code = t3.company_code
+LEFT JOIN
+(SELECT COUNT(DISTINCT manager_code) AS CountM, company_code FROM Manager GROUP BY company_code) AS t4 ON t1.company_code = t4.company_code
+LEFT JOIN
+(SELECT COUNT(DISTINCT employee_code) AS CountE, company_code FROM Employee GROUP BY company_code) AS t5 ON t1.company_code = t5.company_code
+ORDER BY t1.company_code ASC;

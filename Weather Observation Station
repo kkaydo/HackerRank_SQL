@@ -50,31 +50,88 @@ ORDER BY l ASC, c ASC
 LIMIT 1;
 
 
+/*
+6. Query the list of CITY names starting with vowels (i.e., a, e, i, o, or u) from STATION. Your result cannot contain duplicates.
+*/
+SELECT
+DISTINCT s.city 
+FROM STATION s
+WHERE LEFT(s.city, 1) in ('a','e','i','o','u');
 
 
+/*
+7. Query the list of CITY names ending with vowels (a, e, i, o, u) from STATION. Your result cannot contain duplicates.
+*/
+SELECT
+DISTINCT s.city 
+FROM STATION s
+WHERE RIGHT(s.city, 1) in ('a','e','i','o','u');
 
 
+/*
+8. Query the list of CITY names from STATION which have vowels (i.e., a, e, i, o, and u) as both their first and last characters. 
+Your result cannot contain duplicates.
+*/
+--solution 1: INNER JOIN
+WITH cte1 AS(
+SELECT
+DISTINCT s.city 
+FROM STATION s
+WHERE LEFT(s.city, 1) in ('a','e','i','o','u')
+),
+cte2 AS(
+SELECT
+DISTINCT s.city 
+FROM STATION s
+WHERE RIGHT(s.city, 1) in ('a','e','i','o','u')
+)
+SELECT c1.city FROM
+cte1 c1 INNER JOIN cte2 c2 ON c1.city = c2.city;
+
+--solution 2: Multiple WHERE conditional statements
+SELECT
+DISTINCT s.city 
+FROM STATION s
+WHERE LEFT(s.city, 1) in ('a','e','i','o','u') 
+  AND RIGHT(s.city, 1) in ('a','e','i','o','u');
+
+/*
+9. Query the list of CITY names from STATION that do not start with vowels. Your result cannot contain duplicates..
+*/
+SELECT
+DISTINCT s.city 
+FROM STATION s
+WHERE LEFT(s.city, 1) NOT IN ('a','e','i','o','u');
+
+/*
+10. Query the list of CITY names from STATION that do not end with vowels. Your result cannot contain duplicates.
+*/
+SELECT
+DISTINCT s.city 
+FROM STATION s
+WHERE RIGHT(s.city, 1) NOT IN ('a','e','i','o','u');
 
 
+/*
+11. Query the list of CITY names from STATION that either do not start with vowels or do not end with vowels. 
+Your result cannot contain duplicates.
+*/
+SELECT
+DISTINCT s.city 
+FROM STATION s
+WHERE LEFT(s.city, 1) NOT IN ('a','e','i','o','u') 
+  OR RIGHT(s.city, 1) NOT IN ('a','e','i','o','u');
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/*
+12. Query the list of CITY names from STATION that do not start with vowels and do not end with vowels. 
+Your result cannot contain duplicates.
+*/
+SELECT
+DISTINCT s.city 
+FROM STATION s
+WHERE LEFT(s.city, 1) NOT IN ('a','e','i','o','u') 
+  AND RIGHT(s.city, 1) NOT IN ('a','e','i','o','u');
 
 
 

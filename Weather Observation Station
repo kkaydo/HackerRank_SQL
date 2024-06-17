@@ -134,6 +134,26 @@ WHERE LEFT(s.city, 1) NOT IN ('a','e','i','o','u')
   AND RIGHT(s.city, 1) NOT IN ('a','e','i','o','u');
 
 
+/*
+13. Query the sum of Northern Latitudes (LAT_N) from STATION having values greater than  and less than . 
+Truncate your answer to  decimal places.
+*/
+SELECT
+CONVERT(DECIMAL(10,4),SUM(LAT_N)) AS sum_lat
+FROM STATION
+WHERE LAT_N BETWEEN 38.7880 AND 137.2345;
+
+
+/*
+13. Query the greatest value of the Northern Latitudes (LAT_N) from STATION that is less than . 
+Truncate your answer to  decimal places.
+*/
+SELECT
+CONVERT(DECIMAL(10,4),MAX(LAT_N)) AS sum_lat
+FROM STATION
+WHERE LAT_N < 137.2345;
+
+
 
 
 

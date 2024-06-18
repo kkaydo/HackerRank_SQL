@@ -2,7 +2,7 @@
 1.Query a list of CITY and STATE from the STATION table.
 */
 SELECT CITY, STATE FROM STATION;
-
+https://github.com/kkaydo/HackerRank_SQL/blob/main/Weather%20Observation%20Station
 /*
 2.Query the following two values from the STATION table:
 The sum of all values in LAT_N rounded to a scale of  decimal places.
@@ -145,8 +145,8 @@ WHERE LAT_N BETWEEN 38.7880 AND 137.2345;
 
 
 /*
-13. Query the greatest value of the Northern Latitudes (LAT_N) from STATION that is less than . 
-Truncate your answer to  decimal places.
+13. Query the greatest value of the Northern Latitudes (LAT_N) from STATION that is less than 137.2345. 
+Truncate your answer to 4 decimal places.
 */
 SELECT
 CONVERT(DECIMAL(10,4),MAX(LAT_N)) AS sum_lat
@@ -154,6 +154,41 @@ FROM STATION
 WHERE LAT_N < 137.2345;
 
 
+/*
+15. Query the Western Longitude (LONG_W) for the largest Northern Latitude (LAT_N) in STATION that is 
+less than 137.2345. Round your answer to 4 decimal places.
+*/
+--solution 1: WITH clause (Aggregated Matric)
+WITH cte AS (
+SELECT
+MAX(LAT_N) AS sum_lat
+FROM STATION
+WHERE LAT_N < 137.2345
+)
+SELECT 
+CONVERT(DECIMAL(10,4),LONG_W) AS l
+FROM STATION
+WHERE LAT_N = (SELECT sum_lat FROM cte);
+**an example of subquery in the WHERE clause
+
+/*
+16. Query the smallest Northern Latitude (LAT_N) from STATION that is 
+greater than 38.7780. Round your answer to 4 decimal places.
+*/
+SELECT
+CONVERT(DECIMAL(10,4),MIN(LAT_N)) as lat
+FROM STATION
+WHERE LAT_N > 38.778;
+
+
+/*
+17. Query the Western Longitude (LONG_W)where the smallest Northern 
+Latitude (LAT_N) in STATION is greater than 38.7780. Round your answer to 4 decimal places.
+*/
+SELECT
+CONVERT(DECIMAL(10,4),LONG_W) AS lon
+FROM STATION 
+WHERE LAT_N = (SELECT MIN(LAT_N) AS min_lat FROM STATION WHERE LAT_N>38.778);
 
 
 

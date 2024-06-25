@@ -1,0 +1,73 @@
+Table: Hackers
++----------------+----------------+
+| hacker_id      | Integer        |
+|----------------|----------------|
+| name           | String         |
++----------------+----------------+
+Table: Difficulty
++--------------------+----------------+
+| difficulty_level   | Integer        |
+|--------------------|----------------|
+| score              | Integer        |
++--------------------+----------------+
+Table: Challenges
++--------------------+----------------+
+| challenge_id       | Integer        |
+|--------------------|----------------|
+| hacker_id          | Integer        |
+|--------------------|----------------|
+| difficulty_level   | Integer        |
++--------------------+----------------+
+Table: Submissions
++--------------------+----------------+
+| submission_id      | Integer        |
+|--------------------|----------------|
+| hacker_id          | Integer        |
+|--------------------|----------------|
+| challenge_id       | Integer        |
+|--------------------|----------------|
+| score              | Integer        |
++--------------------+----------------+
+Julia just finished conducting a coding contest, and she needs your help assembling the leaderboard! Write a query 
+to print the respective hacker_id and name of hackers who achieved full scores for more than one challenge. Order your 
+output in descending order by the total number of challenges in which the hacker earned a full score. If more than one 
+hacker received full scores in same number of challenges, then sort them by ascending hacker_id.
+
+pseudocode:
+-- output: hacker_id, name (Hackers),
+-- constraint: full scores, count(challenge_id) > 1,
+-- order by: # full scores challenge DESC, hacker_id ASC
+-- JOIN multiple tables
+
+--first cte to join all tables
+--second cte to aggregate 
+
+code:
+WITH cte AS (
+SELECT
+h.hacker_id AS hacker_id, 
+h.name AS name,
+s.challenge_id AS challenge_id,
+s.score AS score,
+c.difficulty_level AS difficulty_level
+FROM Hackers h
+JOIN Submissions s ON h.hacker_id = s.hacker_id
+JOIN Challenges c ON s.challenge_id = c.challenge_id
+JOIN Difficulty d ON c.difficulty_level = d.difficulty_level
+WHERE s.score = d.score),
+agg_cte AS (
+SELECT
+hacker_id,
+name,
+COUNT(hacker_id) AS num_fullscorechallenge
+FROM cte
+GROUP BY hacker_id, name
+)
+
+SELECT 
+hacker_id,
+name
+FROM agg_cte
+WHERE num_fullscorechallenge >1
+ORDER BY num_fullscorechallenge DESC, hacker_id ASC;
+
